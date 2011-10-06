@@ -20,15 +20,24 @@ void doWork(int id, gvpipe_t fd[], int N);
 //compares two integers. used for qsort
 int intCompare (const void * a, const void * b);
 
+FILE* log;
 
 int main (void) {
+	log = fopen("log.txt", "w+"); //creates a log text file and writes to it
+	
+	fprintf(log, "%s", "Log Created\n\n");
+	fprintf(log, "%s", "Creating some of the variables to be used by master.\n\n");
+	fflush(log);
+	
     gvpipe_t *brass; //the pipes
     pid_t pid; //the pids
     int k; //a counter used ALOT throughout the code
     int numFiles; //number of files to be sorted
     char text[254]; //just used to receive input from the user
-	int i; //another counter used through out the main method
-
+	
+	fprintf(log, "%s", "Getting how many files need to be sorted by the user.\n");
+	fflush(log);
+	
 	//receive how many files to be sorted
     fputs("How many files would you like to sort?\n", stdout);
 	fflush(stdout);
@@ -37,33 +46,47 @@ int main (void) {
 	      if (newLine != NULL)
 		  *newLine = '\0';
     }
-
+	
 	//convert the number of files to an integer
     numFiles = atoi (text);
+  
+  	fprintf(log, "Received %d as the number of files to be sorted\n", numFiles);
+	fflush(log);
   
 	//allocate enough memory so that there are enough pipes for the number of files
     brass = (gvpipe_t *) calloc (numFiles, sizeof(gvpipe_t));
 
+	fprintf(log, "%s", "Finished allocating memory for the pipes\n");
+	fflush(log);
+	
     //the pipes are now created for each child before the child is even created
     for (k = 0; k < numFiles; k++)
         pipe (brass[k]);
-
+	
+	fprintf(log, "%s", "Finished creating all the pipes for each child\n");
+	fprintf(log, "%s", "Creating all of the children and making them do work\n");
+	fflush(log);
+	
     //creating enough children to sort all of the files, 1 child per file
     for (k = 0; k < numFiles; k++) {
         pid = fork ();
 		
-		//I'm not 100% sure anymore on what this does but if I remember right 
-		//removing it makes things work to fast which causes it to crash
+		//wait for the child that just spawned to do its stuff
 		int stat;
         wait (&stat);
         
 		//each child will then doWork and the exit 
 		if (pid == 0) {
+			fprintf(log, "%s", "Just told a child to do work\n");
+			fflush(log);
 			doWork(k, brass, numFiles);
+			fprintf(log, "%s", "Child finished work and is now exiting\n");
+			fflush(log);
 			exit (0);
 		}
     }
 	
+	fprintf(log, "%s", "Setting up some variables to be used to sort input from pipe\n");
     int z = 0;
     int count = 0;
     int val;
@@ -82,19 +105,27 @@ int main (void) {
 	  
 	//if you only inputed one file do this!
 	if (numFiles == 1) {
+		fprintf(log, "%s", "There's only one file so we read from a the one pipe and print it out\n");
+		fflush(log);
 		do {
 			read(brass[z][READ], &val, sizeof(int));
+			fprintf(log, "Read %d from the pipe %d\n", val, z);
+			fflush(log);
 			printf("Num: %d\n", val);
 			count++;
-		} while(count < size * (numFiles+1));
+		} while(count < size * numFiles); 
     } else {
-	
+		
+		fprintf(log, "%s", "Creating variables to hold values from each pipe for comparison\n");
+		fflush(log);
 		int val[numFiles]; //values to be stored (one at a time)
 		int pipes[numFiles]; //the pipes, which will then decide which to read
 		int timesTaken[numFiles]; //the number of times you've read from a pipe
 		int lowestNum = -1; //the result of the comparisons 
 		  
-		//Start al of them at 0 except for pipes as you want to read from 
+		fprintf(log, "%s", "Setting up all of the variables\n");
+		fflush(log);
+		//Start all of them at 0 except for pipes as you want to read from 
 		//all the pipes the first time
 		for (z = 0; z < numFiles; z++) {
 			val[z] = 0;
@@ -102,27 +133,49 @@ int main (void) {
 			timesTaken[z] = 0;
 		}
 		 
+		fprintf(log, "%s", "Setting up MORE variables to be used in the comparison\n");
+		fflush(log);
 		int pipeNumber = 0; //this is the pipe to be changed to 1 to get the new one
 		int t = 0; //this is just a counter used later
 		count = 0; //this is also a counter used later but reset to 0
 	  
+		fprintf(log, "%s", "Starting the comparison loop to compare everything");
+		fflush(log);
 		//so while you haven't read through all of the stuff in the pipes
 		while (count < size * numFiles) {
-		  
+			
 			//increment count by 1, count isn't used except to count how many times the
 			//while loop runs
 			count++;	    
 			
+			fprintf(log, "Run %d through the while loop\n", count);
+			fprintf(log, "%s", "Starting the for loop\n");
+			fflush(log);
 			for (t = 0; t < numFiles; t++) {
+				fprintf(log, "Checking to see if I have to read from pipe %i\n", t);
+				fflush(log);
+			
 				//each time a pipe is set to 1 in pipes, it will read from that pipe again
 				//provided that the pipe that you're reading in from is still less then
 				//the size of the input (which is predetermined)
 				if (pipes[t] == 1 && timesTaken[t] < size) {
 					read(brass[t][READ], &val[t], sizeof(int));
+					
+					fprintf(log, "Reading from pipe %d and I read a %i\n", t, val[t]);
+					frptinf(log, "%s", "Incrementing how many times you've taken from the loop\n");
+					frptinf(log, "%s", "Setting that pipe to 0 meaning it won't be read from unless");
+					frptinf(log, "%s", " it's the lowest number\n");
+					flush(log);
+					
 					pipes[t] = 0;
 					timesTaken[t]++;
 				}
+				fprintf(log, "Done reading from pipe %i\n", t);
+				fflush(log);
 			}//end of for loop
+			
+			fprintf(log, "%s", "Starting for loop, that does the comparison\n");
+			fflush(log);
 		  
 			//This is the difficult part of the actual reading in.
 			//So all the info is stored in val[z] so you loop through
@@ -170,13 +223,22 @@ int main (void) {
 				}
 			}//end of for loop
 			
+			fprintf(log, "The lowest number was %i from pipe %i", lowestNum, pipeNumber);
+			fflush(log);
 			printf("%d\n", lowestNum); //This is the lowest number
 			pipes[pipeNumber] = 1; //this sets the pipe to be read again
 		}//end while
     }//end long else statement
    
+	fprintf(log, "%s", "Finished sorting all of the files!\n");
+	fprintf(log, "%s", "Freeing the memory the pipe took\n");
+	fflush(log);
+	
 	//brass's memory is now free and you then exit the program
     free (brass);
+	
+	fprintf(log, "%s", "Returning 0\n");
+	fflush(log);
     return 0;	
 }
 
@@ -185,9 +247,15 @@ int main (void) {
 //itself.
 void doWork(int id, gvpipe_t fd[], int N) {
 
+	log = fopen("log.txt", "a+"); //append to the current log
+	
+	fprintf(log, "Inside child %i and starting work\n", id); 
+	fflush(log);
+	
 	char *fileName;
 	char text[254];
 	
+	fprintf(log, "%s", "Getting the file name of the file to be sorted from the user\n");
 	fputs("Please enter a file name to sort\n", stdout);
 	fflush(stdout);
 	if (fgets(text, sizeof text, stdin) != NULL) {
@@ -197,37 +265,57 @@ void doWork(int id, gvpipe_t fd[], int N) {
 	}
 
 	fileName = text;
+	
+	fprintf(log, "File: %s is to be sorted\n", fileName);
+	fprintf(log, "%s", "Preparing to open the file\n");
+	fflush(log);
+	
 	int size = 99;
 	char line[99];
 	FILE *file;
 	file = fopen(fileName, "rt");
 	int temp;
 	int intArray[99];
-	 i=0;
+	int i = 0;
 	
+	fprintf(log, "%s" "Starting to read in from the file\n");
+	fflush(log);
 	while(fgets(line,99, file) !=NULL){
 	  sscanf(line, "%d", &temp);
 	  intArray[i] = temp;
+	  fprintf(log, "Received a %i from the file\n", intArray[i]);
+	  fflush(log);
 	  i++;
 	}
-	size=i;
+	size = i;
+	
+	fprintf(log, "%s", "Sorting the array that contains the all the numbers in the file\n");
+	fflush(log);
 	
 	int count = 0;	
 	qsort (intArray, size, sizeof(int), intCompare);
 	
+	fprintf(log, "%s", "All the files are sorted preparing to send them through the pipe\n");
+	fflush(log);
 	//right all of your content to the pipe. 
 	while(count < i){
+		fprintf(log, "Sending %i through the pipe\n", intArray[count]);
+		fflush(log);
 	    write (fd[id][WRITE], &intArray[count], sizeof(int));
 	    count++;
 	}
 	
+	fprintf(log, "%s", "Closing all of the pipes and the file\n");
+	fflush(log);
 	//here you're closing the file and closing the pipes
 	fclose(file);
 	close(fd[id][WRITE]);
  	close(fd[id][READ]);
+	fprintf(log, "Child %i is finished and is now exiting to then exit\n", id);
+	fflush(log);
 }
 
 int intCompare (const void * a, const void * b)
 {
-  return ( *(int*)a - *(int*)b );
+	return ( *(int*)a - *(int*)b );
 }
