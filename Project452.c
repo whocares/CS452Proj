@@ -183,7 +183,7 @@ int main (void) {
 			//coming up and set that as the lowestNumber, so you are
 			//constantly setting lowestNumber as you compare through 
 			//this.
-			for (z = 0; z < numFiles-1; z++) {
+			for (z = 0; z < numFiles; z++) {
 				
 				//so you set the lowest number to be the first value
 				//in the first pipe to just start off.
@@ -194,17 +194,17 @@ int main (void) {
 				
 				//next we see if the lowest number is greater then the 
 				//next value 
-				if (lowestNum > val[z+1]) {
-					lowestNum = val[z+1]; //sets the lowest number to val[z+1]
-					pipeNumber = z+1; //sets the pipe number to z+1
-				} else if (lowestNum == val[z+1]) { //if they are the same
+				if (lowestNum > val[z]) {
+					lowestNum = val[z]; //sets the lowest number to val[z+1]
+					pipeNumber = z; //sets the pipe number to z+1
+				} else if (lowestNum == val[z]) { //if they are the same
 					//see which of them has been taken from more 
-					if (timesTaken[pipeNumber] < timesTaken[z+1]) {
+					if (timesTaken[pipeNumber] < timesTaken[z]) {
+// 						lowestNum = val[z];
+// 						pipeNumber = z;
+					} else {
 						lowestNum = val[z];
 						pipeNumber = z;
-					} else {
-						lowestNum = val[z+1];
-						pipeNumber = z+1;
 					}
 				}
 				
@@ -212,12 +212,19 @@ int main (void) {
 				//this method will search to see which file hasn't been taken
 				//from to many times and set that to the lowest value
 				//is NOT the BEST way or for that matter always correct way!
-				if (timesTaken[pipeNumber] > size) {
+				if (timesTaken[pipeNumber] >= size) {
 					int test; //test variable
+					val[pipeNumber] = 999;
+					timesTaken[pipeNumber]++;
 					for (test = 0; test < numFiles; test++) {
-						if (timesTaken[test] < size) {
-							lowestNum = val[z + 1];
-							pipeNumber = z + 1;
+						if (timesTaken[test] < size && pipeNumber != test) {
+							lowestNum = val[test];
+							pipeNumber = test;
+						} else {
+						    if (val[test] < lowestNum) {
+							lowestNum = val[test];
+							pipeNumber = test;
+						    }
 						}
 					}
 				}
@@ -235,7 +242,7 @@ int main (void) {
 	fflush(cptsLog);
 	
 	//brass's memory is now free and you then exit the program
-    free (brass);
+	free (brass);
 	
 	fprintf(cptsLog, "%s", "Returning 0\n");
 	fflush(cptsLog);
@@ -294,11 +301,12 @@ void doWork(int id, gvpipe_t fd[], int N) {
 	
 	int count = 0;	
 	qsort (intArray, size, sizeof(int), intCompare);
+	intArray[i+1] = 99;
 	
 	fprintf(cptsLog, "%s", "All the files are sorted preparing to send them through the pipe\n");
 	fflush(cptsLog);
 	//right all of your content to the pipe. 
-	while(count < i){
+	while(count < i+1){
 		fprintf(cptsLog, "Sending %i through the pipe\n", intArray[count]);
 		fflush(cptsLog);
 	    write (fd[id][WRITE], &intArray[count], sizeof(int));
