@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+android:id="@+id/widget30"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+xmlns:android="http://schemas.android.com/apk/res/android"
+>
+<Button
+android:id="@+id/options"
+android:layout_width="80px"
+android:layout_height="wrap_content"
+android:text="Options"
+android:layout_below="@+id/loadGame"
+android:layout_alignLeft="@+id/loadGame"
+>
+</Button>
+<Button
+android:id="@+id/loadGame"
+android:layout_width="80px"
+android:layout_height="wrap_content"
+android:text="Continue"
+android:layout_below="@+id/NewGame"
+android:layout_alignLeft="@+id/NewGame"
+>
+</Button>
+<Button
+android:id="@+id/NewGame"
+android:layout_width="80px"
+android:layout_height="wrap_content"
+android:text="New Game"
+android:layout_centerVertical="true"
+android:layout_centerHorizontal="true"
+>
+</Button>
+</RelativeLayout>

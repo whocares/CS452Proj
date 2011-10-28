@@ -1,0 +1,18 @@
+package terrain;
+
+public class Terrain extends Tile {
+	
+	public Terrain(){
+		height = 0;
+		type = 'g';
+	}
+	
+	public void setType(char pType){
+		type = pType;
+		calculateHeight();
+	}
+	
+	public char getType() {
+		return type;
+	}
+}

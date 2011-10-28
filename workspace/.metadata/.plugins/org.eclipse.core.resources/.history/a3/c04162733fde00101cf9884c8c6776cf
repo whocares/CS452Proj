@@ -1,0 +1,20 @@
+package terrain;
+
+public abstract class Tile {
+
+	protected int height;
+	protected char type;
+	
+	public Tile (char pType) {
+		type = pType;
+	}
+	
+	public char getType() {
+		return type;
+	}
+	
+	public int getHeight() {
+		return height;
+	}
+	
+}

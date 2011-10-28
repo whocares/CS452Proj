@@ -1,0 +1,12 @@
+package classes;
+
+import game.characterAbs;
+
+public class Sniper extends proffAbs {
+
+	public Sniper(characterAbs chara) {
+		super(chara);
+		// TODO Auto-generated constructor stub
+	}
+
+}

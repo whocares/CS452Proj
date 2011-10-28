@@ -1,0 +1,9 @@
+import AdvWars.*;
+
+public class AI {
+
+	pulblic AI(Logic log) {
+		
+	}
+	
+}

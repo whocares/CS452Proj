@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, play!</string>
+    <string name="app_name">Game</string>
+<string-array name="Difficulty"><item>Hard</item>
+<item>Medium</item>
+<item>Easy</item>
+</string-array>
+<string name="String Prompt">Please select difficulty.</string>
+</resources>

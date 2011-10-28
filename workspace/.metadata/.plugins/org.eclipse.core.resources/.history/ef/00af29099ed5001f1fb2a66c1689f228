@@ -1,0 +1,73 @@
+package com.warriorpoint.taxman2;
+
+import java.util.ArrayList;
+
+public class Pizza {
+
+	String crust; 
+	ArrayList<String> wTop;
+	ArrayList<String> rTop;
+	ArrayList<String> lTop;
+	String size;
+	
+	public Pizza() {
+		wTop = new ArrayList<String>();
+		rTop = new ArrayList<String>();
+		lTop = new ArrayList<String>();
+		wTop.add("Cheese");
+		size = "Large";
+		crust = "Thing";
+	}
+	
+	public void removeRTop(String topping) {
+		rTop.remove(rTop.indexOf(topping));
+	}
+	
+	public void addRTop(String topping) {
+		this.rTop.add(topping);
+	}
+	
+	public ArrayList<String> getRTop() {
+		return rTop;
+	}
+	
+	public void removeLTop(String topping) {
+		lTop.remove(lTop.indexOf(topping));
+	}
+	
+	public void addLTop(String topping) {
+		this.lTop.add(topping);
+	}
+	
+	public ArrayList<String> getLTop() {
+		return lTop;
+	}
+	
+	public void removeWTop(String topping) {
+		wTop.remove(wTop.indexOf(topping));
+	}
+	
+	public void addWTop(String topping) {
+		this.wTop.add(topping);
+	}
+	
+	public ArrayList<String> getWTop() {
+		return wTop;
+	}
+	
+	public String getCrust() {
+		return crust;
+	}
+	
+	public void setCrust(String crust) {
+		this.crust = crust;
+	}
+	
+	public String getSize() {
+		return size;
+	}
+	
+	public void setSize(String size) {
+		this.size = size;
+	}
+}

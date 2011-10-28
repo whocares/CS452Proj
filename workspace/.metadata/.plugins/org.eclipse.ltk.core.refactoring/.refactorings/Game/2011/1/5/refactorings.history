@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;Game/res/layout/Options.xml&apos; to &apos;options.xml&apos;" description="Rename resource &apos;Options.xml&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="res/layout/Options.xml" name="options.xml" stamp="1296149956723" updateReferences="true"/>
+</session>

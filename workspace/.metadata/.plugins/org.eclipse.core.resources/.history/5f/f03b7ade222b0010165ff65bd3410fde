@@ -1,0 +1,25 @@
+package Test.game;
+
+public abstract class character {
+	
+	protected String name;
+	protected proff prof;
+	protected int Str;
+	protected int Int;
+	protected int Agi;
+	protected int Def;
+	protected int Mov;
+	protected int Lck;
+	protected int Ldr;
+	
+	protected void setName(String name) {
+		
+	}
+	protected abstract void setProf(String prof);
+	protected abstract void setStr(int str);
+	protected abstract void setInt(int intel);
+	protected abstract void setAgi(int agi);
+	
+	public abstract String getName();
+	public abstract proff getProf();
+}

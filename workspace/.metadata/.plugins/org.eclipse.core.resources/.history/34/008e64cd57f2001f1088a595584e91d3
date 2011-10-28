@@ -1,0 +1,267 @@
+package retire;
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
+
+public class RetirePanel extends JPanel {
+
+	private RetireModel rm;
+	
+	private JMenuItem clearItem, closeItem;
+	private ButtonListener listener;
+	private JButton calc;
+	private JButton reset;
+	
+	private JPanel butPanel;
+	private JPanel qaPanel;
+	
+	private JLabel nameQ;
+	private JTextField nameF;
+	
+	private JLabel sexQ;
+	private JComboBox sexBox;
+	private String[] sexString;
+	
+	private JTextArea aTRQ;
+	private String[] ageToRetire;
+	private JComboBox aTRBox;
+	
+	private JTextArea lifeExpQ;
+	private String[] lifeExp;
+	private JComboBox lifeExpCombo;
+	
+	private JTextArea ageQ;
+	private JTextArea incomeQ;
+	private JTextField ageF;
+	private JTextField incomeF;
+	
+	private JTextArea desiredSalary;
+	private JTextField desiredSalaryField;
+	
+	private JTextArea otherSalary;
+	private JTextField otherSalaryField;
+	
+	private JLabel totalToSave;
+	private JLabel totalTS;
+	
+	private JTextArea pension;
+	private JTextArea savings;
+	private JTextArea otherJob;
+	private JTextField pesionField;
+	private JTextField savingsField;
+	private JTextField otherJobField;
+	
+	private JPanel topPanel;
+	private JPanel botPanel;
+	
+	private TitledBorder bt;
+	private Border lb;
+	private TitledBorder tt;
+	
+	private JButton exit;
+	private JButton print;
+	
+	private JButton nameH;
+	private JButton ageH;
+	private JButton sexH;
+	private JButton ageToRetireH;
+	private JButton annualIncomeH;
+	private JButton lifeExpH;
+	private JButton desiredSalaryH;
+	private JButton otherSalaryH;
+	private JButton pensionH;
+	private JButton savingsH;
+	private JButton otherJobH;
+	
+	//TODO: create help buttons
+	
+	public RetirePanel(JMenuItem clearItem, JMenuItem closeItem) {
+		super();
+		this.clearItem = clearItem;
+		this.closeItem = closeItem;
+		rm = new RetireModel();
+		
+		setLayout(new BorderLayout());
+		
+		qaPanel = new JPanel();
+		qaPanel.setLayout(new GridLayout(2, 0, 20, 20));
+		// rows, columns, horizontal gap, vertical gap
+		add(qaPanel, BorderLayout.CENTER);
+		
+		lb = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+		bt = BorderFactory.createTitledBorder(lb, "Financial Information");
+		tt = BorderFactory.createTitledBorder(lb, "Personal Information");
+		
+		tt.setTitleColor(Color.gray);
+		bt.setTitleColor(Color.gray);
+		
+		topPanel = new JPanel();
+		botPanel = new JPanel();
+		topPanel.setLayout(new GridLayout(4, 3, 20, 20));
+		botPanel.setLayout(new GridLayout(8, 3, 20, 20));
+		botPanel.setBorder(bt);
+		topPanel.setBorder(tt);
+		
+		qaPanel.add(topPanel);
+		qaPanel.add(botPanel);
+		
+		setCombos();
+		createButtons();
+		setJLabels();
+		setListen();
+	}
+	
+	public void setJLabels() {
+		nameQ = new JLabel("What is your name?");
+		nameF = new JTextField();
+		
+		ageQ = new JTextArea("What is your age?");
+		ageQ.setVisible(true);
+		ageF = new JTextField();
+		
+		incomeQ = new JTextArea("What is your current income?");
+		incomeQ.setVisible(true);
+		incomeF = new JTextField();
+		
+		desiredSalary = new JTextArea("How much do you want to make while " +
+				"in retirement?");
+		desiredSalary.setVisible(true);
+		desiredSalaryField = new JTextField();
+		
+		pension = new JTextArea("Do you have a pension? If so, \n how much do" +
+				" you have in it?");
+		pesionField = new JTextField();
+		
+		savings = new JTextArea("Do you have a savings account? If so, \n how" +
+				" much do you have saved?");
+		savingsField = new JTextField();
+		
+		otherJob = new JTextArea("Do you plan on having a part time job \n" +
+				"while retired? If so how much do you expect to make?");
+		otherJobField = new JTextField();
+		
+		totalTS = new JLabel("How much you need to save: ");
+		totalToSave = new JLabel("");
+		
+		sexQ = new JLabel("Are you male or female?");
+		
+		aTRQ = new JTextArea("When do you want to retire?");
+		
+		lifeExpQ = new JTextArea("How long do you expect to live?");
+		
+		
+		
+	}
+	
+	public void setCombos() {
+		sexString = new String[]{"Male", "Female"};
+		sexBox = new JComboBox(sexString);
+		
+		ageToRetire = new String[]{" ", "55", "60", "65", "70"};
+		aTRBox = new JComboBox(ageToRetire);
+		
+		lifeExp = new String[]{" ", "100", "1 day", "Over 9000"};
+		lifeExpCombo = new JComboBox(lifeExp);                     
+	}
+	
+	public void createButtons() {
+		calc = new JButton("Show me the money!");
+		reset = new JButton("Reset");
+		print = new JButton("Print");
+		exit = new JButton("Exit");
+		
+		
+		
+		butPanel = new JPanel();
+		butPanel.setLayout(new FlowLayout());
+		butPanel.add(calc);
+		butPanel.add(print);
+		butPanel.add(reset);
+		butPanel.add(exit);
+		
+		add(butPanel, BorderLayout.SOUTH);
+	}
+	
+	private void setListen() {
+		listener = new ButtonListener();
+		
+		clearItem.addActionListener(listener);
+		closeItem.addActionListener(listener);
+		reset.addActionListener(listener);
+		calc.addActionListener(listener);
+		exit.addActionListener(listener);
+		print.addActionListener(listener);
+	}
+	
+	private void clearForm() {
+		ageF.setText("");
+		incomeF.setText("");
+		otherSalaryField.setText("");
+		desiredSalaryField.setText("");
+		totalToSave.setText("");
+	}
+	
+	private void calculate() {
+		int i = sexBox.getSelectedIndex();
+		if (i == 0)
+			rm.setSex("male");
+		else
+			rm.setSex("female");
+		
+		System.out.println(""+ i);
+		i = aTRBox.getSelectedIndex();
+		if (i == 0) {
+			System.out.println("OH NO!");
+			System.exit(1);
+		} else if (i == 1)
+			rm.setAgeToRetire(55);
+		else if (i == 2)
+			rm.setAgeToRetire(60);
+		else if (i == 3)
+			rm.setAgeToRetire(65);
+		else 
+			rm.setAgeToRetire(70);
+		
+		System.out.println(""+ i);
+		System.out.println(ageF.getText());
+		System.out.println(incomeF.getText());
+		System.out.println(desiredSalaryField.getText());
+		System.out.println(otherSalaryField.getText());
+		
+		rm.setAge(Integer.parseInt(ageF.getText()));
+		rm.setASalary(Integer.parseInt(incomeF.getText()));
+		rm.setDSalary(Integer.parseInt(desiredSalaryField.getText()));
+		rm.setOtherIncome(Integer.parseInt(otherSalaryField.getText()));
+		totalToSave.setText("" + rm.calculate() + " every year");
+	}
+	
+	private void print() {
+		//TODO: Do print stuff, create a new JFrame
+	}
+	
+	private class ButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent event) {
+
+			JComponent comp = (JComponent) event.getSource();
+		
+			if (comp == clearItem || comp == reset) 
+				clearForm();
+			
+			if (comp == closeItem || comp == exit) 
+				System.exit(0);
+			
+			if (comp == calc)
+				calculate();
+			
+			if (comp == print)
+				print();
+		}
+	}
+}

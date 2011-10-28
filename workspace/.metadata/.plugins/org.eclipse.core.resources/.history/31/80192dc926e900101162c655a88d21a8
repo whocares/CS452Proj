@@ -1,0 +1,9 @@
+import AdvWars.gameplay;
+
+public class AI {
+
+	public AI(Logic log) {
+		
+	}
+	
+}

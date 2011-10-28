@@ -1,0 +1,14 @@
+import java.util.*;
+
+
+public class master {
+	
+	public master() {
+		
+		Scanner sc = new Scanner(System.in);
+		System.out.println("How many files would you like to sort?");
+		String numFiles = sc.next();
+		
+	}
+	
+}

@@ -1,0 +1,11 @@
+package terrain;
+
+public class Terrain implements Tile {
+	
+	public Terrain(){
+		height = 0;
+		type = 'g';
+	}
+	
+	
+}

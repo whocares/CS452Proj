@@ -1,0 +1,304 @@
+package retire;
+
+import javax.swing.*;
+
+public class RetireModel extends JPanel {
+	private double aSalary; //current annual Salary
+	private double dSalary; //Desired salary when retired
+	private int age; //current age
+	private int ageToRetire; //Desired Age to retire
+	private double sSE; //Social Security Estimate
+	private double otherIncome; //Income from 401k, pension, other jobs, etc.
+	private double savings; //their savings
+	private double be465; //if you retire before 65
+	private double total; //total money needed for saving
+	private int exp; //This is the life expectancy
+	private String sex; //The gender of the person
+
+	public RetireModel() {
+		super();
+		be465 = 1;
+		total = 0;
+	}
+
+	public void setSex(String s) {
+		if (s.charAt(0) == 'M' || s.charAt(0) == 'm') {
+			sex = "male";
+		} else {
+			sex = "female";
+		}
+	}
+	
+	public String getSex() {
+		return sex;
+	}
+
+	public void setLifeExp(int exp) {
+		this.exp = exp;
+	}
+
+	public int getExp() {
+		return exp;
+	}
+
+	public double getSavings() {
+		return savings;
+	}
+
+	public void setSavings(double savings) {
+		this.savings = savings;
+	}
+
+	public double getASalary() {
+		return aSalary;
+	}
+
+	public void setASalary(double salary) {
+		aSalary = salary;
+	}
+
+	public double getDSalary() {
+		return dSalary;
+	}
+
+	public void setDSalary(double salary) {
+		dSalary = salary;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public int getAgeToRetire() {
+		return ageToRetire;
+	}
+
+	public void retireBe465() {
+		if (ageToRetire <=55) {
+			be465 = 8.8;
+		} else {
+			be465 = 4.7;
+		}
+	}
+	
+	public double getB465() {
+		return be465;
+	}
+
+	public int getRoundedATR() {
+		int k = 65;
+
+		if (ageToRetire <= 55 || ageToRetire > 55 && ageToRetire < 57) {
+			k = 55;
+		} else if (ageToRetire >= 57 && ageToRetire < 62) {
+			k = 60;
+		} else if (ageToRetire >= 62 && ageToRetire < 67) {
+			k = 65;
+		} else {
+			k = 70;
+		}
+
+		return k; 
+	}
+
+	public double savMul() {
+		int k = getRoundedATR();
+		double d;
+		roundExp();
+		
+		if (sex.equals("male")) 
+			d = getMLifeExpMul(k);
+		else
+			d = getFLifeExpMul(k);
+		
+		return d; 
+	}
+
+	public void roundExp() {
+		if (sex.equals("male")) {
+			if (exp < 83)
+				exp = 82;
+			else if (exp > 93)
+				exp = 94;
+			else 
+				exp = 89;
+		} else {
+			if (exp < 88)
+				exp = 86;
+			else if (exp < 96)
+				exp = 97;
+			else 
+				exp = 92;
+		}
+	}
+	
+	public double getFLifeExpMul(int aTR) {
+		double d = 0; 
+		
+		if (aTR == 55) {
+			switch (exp) {
+			case 86: d = 20.53; break;
+			case 92: d = 22.79; break;
+			case 97: d = 24.40; break;
+			default : d = 20.53; break;
+			}
+		} else if (aTR == 60) {
+			switch (exp) {
+			case 86: d = 18.32; break;
+			case 92: d = 20.93; break;
+			case 97: d = 22.79; break;
+			default : d = 18.32; break;
+			}
+		} else if (aTR == 65) {
+			switch (exp) {
+			case 86: d = 15.77; break;
+			case 92: d = 18.79; break;
+			case 97: d = 20.93; break;
+			default : d = 15.77; break;
+			}
+		} else {
+			switch (exp) {
+			case 86: d = 12.83; break;
+			case 92: d = 16.31; break;
+			case 97: d = 18.79; break;
+			default : d = 12.83; break;
+			}
+		}
+		return d;
+	}
+	
+	public double getMLifeExpMul(int aTR) {
+		double d = 0; 
+
+		if (aTR == 55) {
+			switch (exp) {
+			case 82: d = 18.79; break;
+			case 89: d = 21.71; break;
+			case 94: d = 23.46; break;
+			default : d = 18.79; break;
+			}
+		} else if (aTR == 60) {
+			switch (exp) {
+			case 82: d = 16.31; break;
+			case 89: d = 19.68; break;
+			case 94: d = 21.71; break;
+			default : d = 16.31; break;
+			}
+		} else if (aTR == 65) {
+			switch (exp) {
+			case 82: d = 13.45; break;
+			case 89: d = 17.35; break;
+			case 94: d = 19.68; break;
+			default : d = 13.45; break;
+			}
+		} else {
+			switch (exp) {
+			case 82: d = 10.15; break;
+			case 89: d = 14.65; break;
+			case 94: d = 17.35; break;
+			default : d = 10.15; break;
+			}
+		}
+		return d;
+	}
+
+	public void setAgeToRetire(int ageToRetire) {
+		this.ageToRetire = ageToRetire;
+	}
+
+	public int getHMYTR() {
+		int x = ageToRetire - age;
+		if (x != 10 || x != 15 || x != 20 || x != 25 || x != 30 ||
+				x != 35 || x!= 40 && x < 40) {
+			while (x != 10 || x != 15 || x != 20 || x != 25 || x != 30 ||
+					x != 35 || x!= 40 && x < 40) 
+				x++;
+		} //if x isn't one of our numbers, we increase it so it 
+		//becomes one of them
+		else {
+			while (x != 10 || x != 15 || x != 20 || x != 25 || x != 30 ||
+					x != 35 || x!= 40 && x > 40) {
+				x--;
+			}
+		} //if x is over 40, then we subtract it
+
+		return x;
+	}
+
+	public double getSSE() {
+		return sSE;
+	}
+
+	public void setSSE() {
+		if (aSalary > 40000) {
+			sSE = 14500;
+		} else if (aSalary > 25000) {
+			sSE = 12000;
+		} else {
+			sSE = 8000;
+		}
+	}
+
+	public double getOtherIncome() {
+		return otherIncome;
+	}
+
+	public void setOtherIncome(double otherIncome) {
+		this.otherIncome = otherIncome;
+	}
+
+	public double howMuchToSave(double subTotal) {
+		int k = getHMYTR();
+
+		switch (k) {
+		case 10: subTotal = subTotal * .085; break;
+		case 15: subTotal = subTotal * .052; break;
+		case 20: subTotal = subTotal * .036; break;
+		case 25: subTotal = subTotal * .027; break;
+		case 30: subTotal = subTotal * .020; break;
+		case 35: subTotal = subTotal * .016; break;
+		case 40: subTotal = subTotal * .013; break;
+		}
+
+		return subTotal;
+	}
+
+	public double factorForSavings() {
+		double a = otherIncome + savings;
+		double b = 0;
+
+		switch (getHMYTR()) {
+		case 10: b = 1.3; break;
+		case 15: b = 1.6; break;
+		case 20: b = 1.8; break;
+		case 25: b = 2.1; break;
+		case 30: b = 2.4; break;
+		case 35: b = 2.8; break;
+		case 40: b = 3.3; break;
+		}
+
+		return a * b; //this is how much you'll accumulate in savings
+	}
+
+	public double calculate() {
+		setSSE();
+		retireBe465();
+		double k = savMul();
+		double c = sSE * be465;
+		double a = c + factorForSavings(); //this is how much you have
+		if (a > dSalary) {
+			return -1; //This means error
+		}
+		double b = dSalary - a; //this is how much you're behind
+		total = howMuchToSave(b);
+
+		total = total * k;
+		
+		return total;
+	}
+
+}

@@ -1,0 +1,61 @@
+package retire;
+
+import java.util.Scanner;
+
+public class TestRModel {
+	RetireModel rm;
+	Scanner scan;
+	
+	public TestRModel() {
+		rm = new RetireModel();
+		scan = new Scanner(System.in);
+	}
+	
+//	public static void main(String args[]) {
+//		TestRModel tRM = new TestRModel();
+//		//tRM.testSex();   //works 
+//		//tRM.testB465();  //works
+//		//tRM.testRATR();  //works
+//		//tRM.testSaveMul(); //from some testing works
+//	}
+	
+	//Works
+	private void testSex() {
+		System.out.println("Please enter gender.");
+		String k = scan.next();
+		System.out.println(k);
+		rm.setSex(k);
+		System.out.println(rm.getSex());
+	}
+	
+	//works
+	private void testRATR() {
+		System.out.println("When do you want to retire");
+		String k = scan.next();
+		System.out.print(k);
+		rm.setAgeToRetire(Integer.parseInt(k));
+		System.out.println(rm.getAgeToRetire());
+		System.out.println(rm.getRoundedATR());
+	}
+	
+	private void testSaveMul() {
+		System.out.println("What is your life expectancy");
+		String k = scan.next();
+		rm.setLifeExp(Integer.parseInt(k));
+		System.out.println(rm.getExp());
+		testRATR(); //this works
+		testSex();  //this works
+		System.out.println(rm.savMul());
+	}
+	
+	//Works
+	private void testB465() {
+		System.out.println("When do you want to retire");
+		String k = scan.next();
+		System.out.print(k);
+		rm.setAgeToRetire(Integer.parseInt(k));
+		System.out.println(rm.getAgeToRetire());
+		rm.retireBe465();
+		System.out.println(rm.getB465());
+	}
+}

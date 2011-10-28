@@ -1,0 +1,8 @@
+package terrain;
+
+public class Mountain {
+	public Plains () {
+		height = 0;
+		type = 'g';
+	}
+}

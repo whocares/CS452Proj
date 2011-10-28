@@ -1,0 +1,36 @@
+package retire;
+
+import java.applet.Applet;
+
+import javax.swing.*;
+
+public class RetireApplet {
+
+	public static void main(String args[]) {
+		JFrame frame = new JFrame("Retirement Calculator");
+		JMenuBar menu = new JMenuBar();
+		JMenu fileMenu = new JMenu("File");
+		JMenuItem clearItem = new JMenuItem("Clear");
+		JMenuItem closeItem = new JMenuItem("Close");
+		
+		frame.setJMenuBar(menu);
+		menu.add(fileMenu);
+		fileMenu.add(clearItem);
+		fileMenu.add(closeItem);
+		
+		RetirePanel panel = new RetirePanel(clearItem, closeItem);
+		OldRetirePanel panel1 = new OldRetirePanel();
+		
+		frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
+		
+		Applet a = new Applet();
+		a.init();
+		
+		frame.setContentPane(panel);
+		//frame.getContentPane().add(a);
+		
+		frame.setSize(500, 700);
+		frame.pack();
+		frame.setVisible(true);
+	}	
+}

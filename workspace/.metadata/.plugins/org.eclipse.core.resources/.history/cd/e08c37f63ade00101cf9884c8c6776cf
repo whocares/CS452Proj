@@ -1,0 +1,7 @@
+package terrain;
+
+public abstract class Tile {
+
+	protected int height;
+	
+}

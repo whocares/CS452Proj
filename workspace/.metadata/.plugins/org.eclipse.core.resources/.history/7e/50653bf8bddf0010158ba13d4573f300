@@ -1,0 +1,69 @@
+package gameplay;
+
+import units.Unit;
+import terrain.Tile;
+import maps.MapReader;
+
+public class Logic {
+
+	private Unit[][] unitBoard;
+	private Tile[][] tBoard;
+	private char[][] moves;
+	private int mapSize;
+
+	private int p1UnitCount, p2UnitCount;
+
+	public Logic(String mapName){
+		;
+		createBoards();    
+
+	}
+
+
+	private void createBoards(){
+		unitBoard =  new Unit[mapSize][mapSize];
+		tBoard = new Tile[mapSize][mapSize];
+		moves = new char[mapSize][mapSize];
+		
+		for(int i = 0; i < mapSize; i++)
+			for(int j = 0; j < mapSize; j++)
+				moves[i][j] = '-';
+	}
+
+	private boolean move(Unit pUnit, int destX, int destY){
+		boolean returnVal = false;
+		return returnVal;
+
+	}
+
+	private char[][] calculateMoves(Unit pUnit){
+		switch(pUnit.getType()){
+		case Unit.AIRTYPE:
+				for(int i = 0; i < pUnit.getMove();i++)
+					break;
+			break;
+		case Unit.TANKTYPE:
+
+			break;
+		case Unit.INFANTRYTYPE:
+
+			break;
+
+		}
+		
+		return moves;
+
+	}
+
+
+	public char[][] getMoves(){
+		return moves;
+	}
+	
+	private int econDay() {
+		int econ;
+		
+		return econ;
+	}
+	
+}

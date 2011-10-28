@@ -1,0 +1,104 @@
+package retire;
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class RetirePanel extends JPanel {
+
+	private JMenuItem clearItem, closeItem;
+	private ButtonListener listener;
+	private JButton calc;
+	private JButton reset;
+	
+	private JPanel butPanel;
+	private JPanel qaPanel;
+	
+	private JComboBox sexBox;
+	private String[] sexString;
+	
+	private String[] ageToRetire;
+	private JComboBox aTRBox;
+	
+	private JLabel ageQ;
+	private JLabel incomeQ;
+	private JTextField ageF;
+	private JTextField incomeF;
+	
+	public RetirePanel(JMenuItem clearItem, JMenuItem closeItem) {
+		super();
+		this.clearItem = clearItem;
+		this.closeItem = closeItem;
+		
+		setLayout(new BorderLayout());
+		
+		qaPanel = new JPanel();
+		qaPanel.setLayout(new GridLayout(2, 2, 20, 20)); // rows, colus, horizontal gap, vertical gap
+		add(qaPanel, BorderLayout.CENTER);
+		
+		createButtons();
+		setCombos();
+		setListen();
+	}
+	
+	public void setJLabels() {
+		ageQ = new JLabel("What is your age?");
+		incomeQ = new JLabel("What is your current income?");
+	}
+	
+	public void setCombos() {
+		sexString = new String[]{"Male", "Female"};
+		sexBox = new JComboBox(sexString);
+		
+		ageToRetire = new String[]{" ", "55", "60", "65", "70"};
+		aTRBox = new JComboBox(ageToRetire);
+	}
+	
+	public void createButtons() {
+		calc = new JButton("Calculate");
+		reset = new JButton("Reset");
+		
+		butPanel = new JPanel();
+		butPanel.setLayout(new FlowLayout());
+		butPanel.add(calc);
+		butPanel.add(reset);
+		
+		add(butPanel, BorderLayout.SOUTH);
+	}
+	
+	private void setListen() {
+		listener = new ButtonListener();
+		
+		clearItem.addActionListener(listener);
+		closeItem.addActionListener(listener);
+		reset.addActionListener(listener);
+		calc.addActionListener(listener);
+	}
+	
+	private void clearForm() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private void calculate() {
+		// TODO:
+	}
+	
+	private class ButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent event) {
+
+			JComponent comp = (JComponent) event.getSource();
+		
+			if (comp == clearItem || comp == reset) 
+				clearForm();
+			
+			if (comp == closeItem) 
+				System.exit(0);
+			
+			if (comp == calc)
+				calculate();
+		}
+	}
+}

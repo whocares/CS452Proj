@@ -1,0 +1,14 @@
+import java.util.*;
+import java.lang.*;
+
+public class master {
+	
+	public master() {
+		
+		String jHome = System.getProperty("java.home");
+		String jBin = jHome + File.serperator + "bin" + FileSeperator + "java";
+		
+		
+	}
+	
+}

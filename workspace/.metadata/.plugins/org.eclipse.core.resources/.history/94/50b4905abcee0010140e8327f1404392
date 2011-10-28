@@ -1,0 +1,10 @@
+import java.io.File;
+
+
+public class Process {
+	public static int exec(Class c) throws IOException, InterruptedException {
+		String jHome = System.getProperty("java.home");
+		String jBin = jHome + File.separator + "bin" + File.separator + "java";
+		
+	}
+}

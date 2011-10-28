@@ -1,0 +1,54 @@
+<html>
+<head>
+</head>
+<body>
+<?php
+
+//opens the file and makes into a 2 dimensional array
+$file = fopen("patients.txt", 'r');
+
+$array = explode("\n", fread($file, filesize("patients.txt")));
+
+$total = sizeof($array);
+
+for ($i = 0; $i < $total; $i++) {
+	$array[$i] = explode(",", $array[$i]);
+}
+
+$total2 = sizeof($array[0]);
+
+//connects to the sql server
+$con = mysql_connect("localhost", ayotteda, ayotteda6402);
+mysql_select_db("test") or die(mysql_error());
+
+if (!$con) {
+	die('Could not connect: ' . mysql_error());
+}
+
+//creates database
+mysql_query("CREATE DATABASE my_db", $con);
+
+mysql_select_db("my_db", $con);
+$sql = "CREATE TABLE Patients
+{
+id INT NOT NULL, 
+PRIMARY KEY(id),
+sex VARCHAR(30), 
+bloodType VARCHAR(4),
+weight DOUBLE,
+infected VARCHAR(1))}";
+
+//Inserts into a datbase each patient
+for ($i = 0; $i < $total; $i++) {
+	mysql_query("INSERT INTO Patients (id, sex, bloodType,
+		  weight, infected) 
+		  VALUES (" . $array[i][0] . ", " . $array[i][1] .  
+		   ", " . $array[i][2] . ", " . $array[i][3] . ", " . 
+	       $array[i][4] .  ")");
+}
+
+   
+
+?>
+</body>
+</html>

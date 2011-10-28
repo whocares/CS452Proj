@@ -1,0 +1,88 @@
+<html>
+<head>
+<title>This sucked</title>
+</head>
+<body>
+<?php
+
+//opens the file and makes into a 2 dimensional array
+$file = fopen("patients.txt", 'r');
+
+$array = explode("\n", fread($file, filesize("patients.txt")));
+
+$total = sizeof($array);
+
+for ($i = 0; $i < $total; $i++) {
+    $array[$i] = explode(",", $array[$i]);
+}
+
+$total2 = sizeof($array[0]);
+
+//connects to the sql server
+$con = mysql_connect("localhost", "ayotteda", "ayotteda6402");
+mysql_select_db("ayotteda", $con) or die(mysql_error());
+
+if (!$con) {
+    die('Could not connect: ' . mysql_error());
+}
+
+//creates database
+$sql = "CREATE TABLE Patients
+{
+id INT NOT NULL, 
+PRIMARY KEY(id),
+sex VARCHAR(30), 
+bloodType VARCHAR(4),
+weight DOUBLE,
+infected VARCHAR(1))}";
+
+//Inserts into a datbase each patient
+for ($i = 0; $i < $total; $i++) {
+    mysql_query("INSERT INTO Patients (id, sex, bloodType, weight, infected) VALUES (" . $array[i][0] . ", " . $array[i][1] .   ", " . $array[i][2] . ", " . $array[i][3] . ", " .  $array[i][4] .  ")");
+}
+
+$totalPatients = mysql_query("SELECT * FROM Patients");
+$totalPatients = mysql_num_rows($numPatients);
+
+$infected = mysql_query("SELECT infected FROM Patients WHERE infected='Y'");
+$infected = mysql_num_rows($infected);
+
+echo "Number of infected patients: " . (100*(round($infected/$totalPatients, 2))) . "%"; 
+echo "<br>";
+
+$notInfected = $infected - $totalPatients;
+echo "Number of patients not infected: " . 
+    (100*(round($notInfeced/$totalPatients, 2))) . "%";
+echo "<br>";
+
+$infectedMale = mysql_query("SELECT sex FROM Patients WHERE infected='Y' && sex='M'");
+$infectedMale = mysql_num_rows($infectedMale);
+echo "The percentage of infected men are: " . 
+    (100*(round($infectedMale/$totalPatients, 2))) . "%";
+echo "<br>";
+    
+$male = mysql_query("SELECT sex FROM Patients WHERE infected='N' && sex='M'");
+$male = mysql_num_rows($male);
+echo "The percentage men who are not infected: " . 
+    (100*(round($male/$totalPatients, 2))) . "%";
+echo "<br>";
+    
+$sickWeight = mysql_query("SELECT weight, infected FROM Patients WHERE infected='Y' && weight > 160 "); 
+$sickWeight = mysql_num_rows($sickWeight);
+echo "The percentage of patients over 160 pounds and who are infected: " . 
+    (100*(round($sickWeight/$total, 2))) . "%";
+echo "<br>";
+    
+$bloodType = mysql_query("SELECT bloodType FROM Patients WHERE bloodType='O+'");
+$bloodType = mysql_num_rows($bloodType);
+echo "The percent of patients with blood type O+: " . (100*(round($bloodType/$totalPatients, 2))) . "%";
+echo "<br>";
+
+$posBloodType = mysql_query("SELECT bloodType FROM Patients WHERE bloodType LIKE '%+'");
+$posBloodType = mysql_num_rows($posBloodType);
+echo "The percent of patients with blood type positive blood type+: " . (100*(round($posBloodType/$totalPatients), 2)) . "%";
+echo "<br>";
+
+?>
+</body>
+</html>

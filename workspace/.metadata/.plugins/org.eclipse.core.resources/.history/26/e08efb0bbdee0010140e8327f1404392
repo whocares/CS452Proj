@@ -1,0 +1,21 @@
+import java.io.File;
+import java.io.IOException;
+import java.lang.*;
+
+
+public class Process {
+	public static int exec(Class c) throws IOException, InterruptedException {
+		String jHome = System.getProperty("java.home");
+		String jBin = jHome + File.separator + "bin" + File.separator + "java";
+		
+		String cp = System.getProperty("java.class.path");
+		String cn = c.getCanonicalName();
+		
+		ProcessBuilder b = new ProcessBuilder(jBin, "-cp", cp, cn);
+		Process p = b.start();
+		p.waitFor();
+		
+		
+		return p.exitValue();
+	}
+}

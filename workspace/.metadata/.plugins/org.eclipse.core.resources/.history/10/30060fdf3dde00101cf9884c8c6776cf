@@ -1,0 +1,38 @@
+package maps;
+
+import java.io.*;
+
+import terrain.Tile;
+
+public class testMap {
+	private Tile[][] map;
+	private int size;
+	
+	
+	public testMap(String pFileName) {
+		
+		try {
+			FileInputStream fstream = new FileInputStream("pFileName");
+			DataInputStream in = new DataInputStream(fstream);
+			BufferedReader br = new BufferedReader(new InputStreamReader(in));
+			String strLine;
+			
+			while ((strLine = br.readLine()) != null) {
+				
+			}
+			in.close();
+		} catch (Exception e) {
+			System.err.println("Error: " + e.getMessage());
+		}
+		
+		for (int r = 0; r < size; r++) {
+			for (int c = 0; c < size; c++) {
+				
+			}
+		}
+	}
+	
+	public Tile[][] getMap() {
+		return map;
+	}
+}

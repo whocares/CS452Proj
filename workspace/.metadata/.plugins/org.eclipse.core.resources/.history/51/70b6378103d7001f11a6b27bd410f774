@@ -1,0 +1,51 @@
+package com.warriorpoint.taxman2;
+
+import java.util.ArrayList;
+
+public class Pizza_Order implements java.io.Serializable {
+	
+	ArrayList<Pizza> zahOrder;
+	String address;
+	String name;
+	String phoneNum;
+	
+	public Pizza_Order() {
+		zahOrder = new ArrayList<Pizza>();
+	}
+	
+	public int getSize() {
+		return zahOrder.size();
+	}
+	
+	public void setAddr(String addr) {
+		address = addr;
+	}
+	
+	public String getAddr() {
+		return address;
+	}
+	
+	public void setNum(String num) {
+		phoneNum = num;
+	}
+	
+	public String getNum() {
+		return phoneNum;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public ArrayList<Pizza> getOrder() {
+		return zahOrder;
+	}
+	
+	public void addPizza(Pizza order) {
+		zahOrder.add(order);
+	}
+}

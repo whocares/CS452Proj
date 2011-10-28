@@ -1,0 +1,12 @@
+import java.util.*;
+
+
+public class master {
+	
+	public master() {
+		
+		Scanner sc = new Scanner(System.in);
+		
+	}
+	
+}

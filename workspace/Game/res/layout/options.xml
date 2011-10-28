@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout
+android:id="@+id/widget29"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+xmlns:android="http://schemas.android.com/apk/res/android"
+>
+<TextView
+android:id="@+id/Sound"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Sound:"
+android:layout_x="60px"
+android:layout_y="62px"
+>
+</TextView>
+<Button
+android:id="@+id/soundOnOff"
+android:layout_width="60px"
+android:layout_height="40px"
+android:text="On"
+android:layout_x="120px" android:layout_y="50px">
+</Button>
+<TextView
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_x="50px"
+android:layout_y="122px" android:text="Difficulty:" android:id="@+id/difficultTxt">
+</TextView>
+<Button android:id="@+id/Cancel" 
+android:text="Cancel" 
+android:layout_y="220px" 
+android:layout_x="5px" 
+android:layout_height="50px" 
+android:layout_width="80px">
+</Button>
+<Button android:id="@+id/SaveButton" 
+android:layout_y="220px" 
+android:text="Save" 
+android:layout_width="80px" 
+android:layout_height="50px" 
+android:layout_x="395px">
+</Button>
+<Spinner android:layout_width="wrap_content" 
+android:layout_height="wrap_content" 
+android:id="@+id/diffSpin" 
+android:layout_x="120px" 
+android:layout_y="110px">
+</Spinner>
+<Button android:layout_width="wrap_content" 
+android:layout_height="wrap_content" 
+android:text="Erase Data" 
+android:id="@+id/EDButton" 
+android:layout_x="350px" 
+android:layout_y="85px">
+</Button>
+</AbsoluteLayout>

@@ -1,0 +1,10 @@
+
+public class parent {
+
+	public parent() {
+		
+		Process.exec(child);
+		
+	}
+	
+}
